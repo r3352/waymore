@@ -205,7 +205,8 @@ def write(text='',pipe=False):
 def writerr(text='',pipe=False):
     # Only send text to stdout if the tool isn't piped to pass output to something else, 
     # or If the tool has been piped to output the send to stderr
-    if sys.stdout.isatty():
+    if args.stream or sys.stdout.isatty():
+    
         # If it has carriage return in the string, don't add a newline
         if text.find('\r') > 0:
             sys.stdout.write(text)
@@ -661,14 +662,16 @@ def printProgressBar(
         filledLength = int(length * iteration // total)
         bar = fill * filledLength + "-" * (length - filledLength)
         # If the program is not piped with something else, write to stdout, otherwise write to stderr
-        if sys.stdout.isatty():
+        if args.stream or sys.stdout.isatty():
+    
             write(colored(f"\r{prefix} |{bar}| {percent}% {suffix}\r", "green"))
         else:
             writerr(colored(f"\r{prefix} |{bar}| {percent}% {suffix}\r", "green"))
         # Print New Line on Complete
         if iteration == total:
             # If the program is not piped with something else, write to stdout, otherwise write to stderr
-            if sys.stdout.isatty():
+            if args.stream or sys.stdout.isatty():
+    
                 write()
             else: 
                 writerr()
@@ -3309,7 +3312,8 @@ def main():
         except:
             pass
         try:
-            if sys.stdout.isatty():
+            if args.stream or sys.stdout.isatty():
+    
                 writerr(colored('✅ Want to buy me a coffee? ☕ https://ko-fi.com/xnlh4ck3r 🤘', 'green'))
         except:
             pass
